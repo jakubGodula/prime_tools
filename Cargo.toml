@@ -1,0 +1,11 @@
+[package]
+name = "generate_primes"
+version = "0.1.0"
+authors = ["Daniel Medani <danmedani@gmail.com>"]
+edition = "2018"
+description = "A small package to generate primes!"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bit-vec = "0.6.1"
