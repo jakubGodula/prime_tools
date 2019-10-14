@@ -13,6 +13,24 @@ fn main() {
 	println!("{:#?}", get_prime_factors_with_counts(2, &primes));
 }
 
+
+/// Generates a list of prime numbers less than x.
+///
+/// # Examples
+///
+/// ```
+/// let x = 11;
+/// let answer = generate_primes::get_primes_less_than_x(x);
+///
+/// assert_eq!(vec![2, 3, 5, 7], answer);
+/// ```
+///
+/// ```
+/// let x = 12;
+/// let answer = generate_primes::get_primes_less_than_x(x);
+///
+/// assert_eq!(vec![2, 3, 5, 7, 11], answer);
+/// ```
 pub fn get_primes_less_than_x(x: u32) -> Vec<u32> {
 	let mut primes = Vec::new();
 
@@ -27,28 +45,42 @@ pub fn get_primes_less_than_x(x: u32) -> Vec<u32> {
 }
 
 
-fn get_prime_bit_map(x: u64) -> BitVec {
-	let mut prime_map = BitVec::from_elem(x as usize + 1, true);
-	
-	// 0 and 1 are not primes
-	prime_map.set(0, false);
-	prime_map.set(1, false);
-
-	// sieve of eratosthenes
-	for i in 2..=round::ceil((x as f64).sqrt(), 1) as usize {
-		if prime_map[i] {
-			for j in i.. {
-				if i * j > x as usize {
-					break;
-				}
-				prime_map.set(i * j, false);
-			}
-		}
-	}
-
-	prime_map
-}
-
+/// Creates a map of prime factors -> prime factor counts.
+/// It's expected that this will be used in combination with get_primes_less_than_x.
+///
+/// # Examples
+///
+/// ```
+/// let primes = get_primes_less_than_x(12);
+/// let mut result = HashMap::new();
+///
+/// result.insert(2, 3);
+/// result.insert(3, 1);
+/// result.insert(5, 1);
+///
+/// assert_eq!(
+/// 	get_prime_factors_with_counts(
+///			120, 
+///			&primes
+///		),
+/// 	result
+/// );
+/// ```
+///
+/// ```
+/// let primes = get_primes_less_than_x(11);
+/// let mut result = HashMap::new();
+///
+/// result.insert(101, 1);
+///
+/// assert_eq!(
+/// 	get_prime_factors_with_counts(
+///			101,
+///			&primes
+///		),
+/// 	result
+/// );
+/// ```
 pub fn get_prime_factors_with_counts(x: u32, primes: &Vec<u32>) -> HashMap<u32, u32> {
 	let mut factor_counts = HashMap::new();
 	let mut primes_index = 0;
@@ -75,6 +107,29 @@ pub fn get_prime_factors_with_counts(x: u32, primes: &Vec<u32>) -> HashMap<u32, 
 	}
 
 	factor_counts
+}
+
+
+fn get_prime_bit_map(x: u64) -> BitVec {
+	let mut prime_map = BitVec::from_elem(x as usize + 1, true);
+	
+	// 0 and 1 are not primes
+	prime_map.set(0, false);
+	prime_map.set(1, false);
+
+	// sieve of eratosthenes
+	for i in 2..=round::ceil((x as f64).sqrt(), 1) as usize {
+		if prime_map[i] {
+			for j in i.. {
+				if i * j > x as usize {
+					break;
+				}
+				prime_map.set(i * j, false);
+			}
+		}
+	}
+
+	prime_map
 }
 
 
@@ -163,7 +218,6 @@ mod tests {
     		result
     	);
     }
-
 
     
 }
