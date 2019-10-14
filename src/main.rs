@@ -5,25 +5,12 @@ fn main() {
     println!("Hello, world!");
 
     let max_num = 1_000_000_000;
-	let primes = get_primes_less_than_x_u32(max_num);
+	let primes = get_primes_less_than_x(max_num);
 	println!("primes len = {}", primes.len());
 	println!("first primes = {:?}", primes[0]);
 }
 
-pub fn get_primes_less_than_x_u64(x: u64) -> Vec<u64> {
-	let mut primes = Vec::new();
-
-	let prime_map = get_prime_bit_map(x);
-	for i in 0..x as usize {
-		if prime_map[i] {
-			primes.push(i as u64);
-		}
-	}
-
-	primes
-}
-
-pub fn get_primes_less_than_x_u32(x: u32) -> Vec<u32> {
+pub fn get_primes_less_than_x(x: u32) -> Vec<u32> {
 	let mut primes = Vec::new();
 
 	let prime_map = get_prime_bit_map(x as u64);
