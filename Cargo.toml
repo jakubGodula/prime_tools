@@ -9,3 +9,4 @@ description = "A small package to generate primes!"
 
 [dependencies]
 bit-vec = "0.6.1"
+libmath = "0.1.4"
