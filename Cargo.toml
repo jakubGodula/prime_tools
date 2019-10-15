@@ -6,6 +6,8 @@ authors = ["Dan Medani <danmedani@gmail.com>"]
 edition = "2018"
 description = "Generate primes, get prime factors, other useful prime-related utilities."
 
+repository = "https://github.com/danmedani/prime_tools"
+
 [dependencies]
 bit-vec = "0.6.1"
 libmath = "0.1.4"
