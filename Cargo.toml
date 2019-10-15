@@ -1,7 +1,8 @@
 [package]
 name = "prime_tools"
 version = "0.1.0"
-authors = ["Daniel Medani <danmedani@gmail.com>"]
+license = "MIT"
+authors = ["Dan Medani <danmedani@gmail.com>"]
 edition = "2018"
 description = "Generate primes, get prime factors, other useful prime-related utilities."
 
