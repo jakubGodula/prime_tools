@@ -129,91 +129,89 @@ fn get_prime_bit_map(x: u64) -> BitVec {
 }
 
 
-// #[cfg(test)]
-// mod tests {
-// 	use crate::*;
+#[cfg(test)]
+mod tests {
+	use crate::*;
 
-//     #[test]
-//     fn primes_less_than_11() {
-//         assert_eq!(
-//         	get_primes_less_than_x(11), 
-//         	vec![2, 3, 5, 7]
-//     	);
-//     }
+    #[test]
+    fn primes_less_than_11() {
+        assert_eq!(
+        	get_primes_less_than_x(11), 
+        	vec![2, 3, 5, 7]
+    	);
+    }
 
-//     #[test]
-//     fn primes_less_than_12() {
-//         assert_eq!(
-//         	get_primes_less_than_x(12),
-//         	vec![2, 3, 5, 7, 11]
-//     	);
-//     }
+    #[test]
+    fn primes_less_than_12() {
+        assert_eq!(
+        	get_primes_less_than_x(12),
+        	vec![2, 3, 5, 7, 11]
+    	);
+    }
 
-//     #[test]
-//     fn primes_less_than_2() {
-//         assert_eq!(
-//         	get_primes_less_than_x(1),
-//         	vec![]
-//     	);
-//     }
+    #[test]
+    fn primes_less_than_2() {
+        assert_eq!(
+        	get_primes_less_than_x(1),
+        	vec![]
+    	);
+    }
 
-//     #[test]
-//     fn primes_less_than_3() {
-//         assert_eq!(
-//         	get_primes_less_than_x(3),
-//         	vec![2]
-//     	);
-//     }
+    #[test]
+    fn primes_less_than_3() {
+        assert_eq!(
+        	get_primes_less_than_x(3),
+        	vec![2]
+    	);
+    }
 
-//     #[test]
-//     fn test_prime_factors_of_120() {
-//     	let primes = get_primes_less_than_x(12);
-//     	let mut result = HashMap::new();
-//     	result.insert(2, 3);
-//     	result.insert(3, 1);
-//     	result.insert(5, 1);
+    #[test]
+    fn test_prime_factors_of_120() {
+    	let primes = get_primes_less_than_x(12);
+    	let mut result = HashMap::new();
+    	result.insert(2, 3);
+    	result.insert(3, 1);
+    	result.insert(5, 1);
 
-//     	assert_eq!(
-//     		get_prime_factors_with_counts(120, &primes),
-//     		result
-//     	);
-//     }
+    	assert_eq!(
+    		get_prime_factors_with_counts(120, &primes),
+    		result
+    	);
+    }
 
-//     #[test]
-//     fn test_prime_factors_of_121() {
-//     	let primes = get_primes_less_than_x(12);
-//     	let mut result = HashMap::new();
-//     	result.insert(11, 2);
+    #[test]
+    fn test_prime_factors_of_121() {
+    	let primes = get_primes_less_than_x(12);
+    	let mut result = HashMap::new();
+    	result.insert(11, 2);
     	
-//     	assert_eq!(
-//     		get_prime_factors_with_counts(121, &primes),
-//     		result
-//     	);
-//     }
+    	assert_eq!(
+    		get_prime_factors_with_counts(121, &primes),
+    		result
+    	);
+    }
 
-//     #[test]
-//     fn test_prime_factors_of_11() {
-//     	let primes = get_primes_less_than_x(4);
-//     	let mut result = HashMap::new();
-//     	result.insert(11, 1);
+    #[test]
+    fn test_prime_factors_of_11() {
+    	let primes = get_primes_less_than_x(4);
+    	let mut result = HashMap::new();
+    	result.insert(11, 1);
     	
-//     	assert_eq!(
-//     		get_prime_factors_with_counts(11, &primes),
-//     		result
-//     	);
-//     }
+    	assert_eq!(
+    		get_prime_factors_with_counts(11, &primes),
+    		result
+    	);
+    }
 
-//     #[test]
-//     fn test_prime_factors_of_11_more_primes() {
-//     	let primes = get_primes_less_than_x(12);
-//     	let mut result = HashMap::new();
-//     	result.insert(11, 1);
+    #[test]
+    fn test_prime_factors_of_11_more_primes() {
+    	let primes = get_primes_less_than_x(12);
+    	let mut result = HashMap::new();
+    	result.insert(11, 1);
     	
-//     	assert_eq!(
-//     		get_prime_factors_with_counts(11, &primes),
-//     		result
-//     	);
-//     }
-
-    
-// }
+    	assert_eq!(
+    		get_prime_factors_with_counts(11, &primes),
+    		result
+    	);
+    }    
+}
