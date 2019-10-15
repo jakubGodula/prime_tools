@@ -7,6 +7,11 @@ edition = "2018"
 description = "Generate primes, get prime factors, other useful prime-related utilities."
 
 repository = "https://github.com/danmedani/prime_tools"
+keywords = ["primes", "math", "factors", "eratosthenes"]
+
+readme = "README.md"
+
+categories = ["algorithms"]
 
 [dependencies]
 bit-vec = "0.6.1"
