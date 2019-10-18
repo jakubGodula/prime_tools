@@ -8,7 +8,7 @@ Mostly for personal use with project euler problems. :)
 ```Rust
 fn get_primes_less_than_x(x: u32) -> Vec<u32>
 ```
->Generates an ordered list of prime numbers from 2 up to x (exclusive)
+>Generates an ordered list of prime numbers from 2 up to x (exclusive).
 >
 >Uses the sieve of Eratosthenes under the covers.
 
