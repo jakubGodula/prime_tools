@@ -8,6 +8,8 @@ use math::round;
 extern crate bit_vec;
 use bit_vec::BitVec;
 
+const PROBABLE_PRIME_FACTOR_CHECK_COUNT: u32 = 100;
+
 /// Generates an ordered list of prime numbers less than x.
 ///
 /// Uses the Sieve of Eratosthenes under the covers.
@@ -108,6 +110,69 @@ pub fn get_prime_factors_with_counts(x: u32, primes: &Vec<u32>) -> HashMap<u32, 
     factor_counts
 }
 
+/// Figures out if a u32 is prime.
+///
+/// This is pretty fast: I've benchmarked it at 2.7 seconds to process 1 million random `u32`s.
+///
+/// It uses probable primes under the covers, checking 100 "random" factors before running the real prime check.
+///
+/// ```
+/// assert_eq!(
+///     prime_tools::is_u32_prime(982_451_653),
+///     true
+/// );
+/// ```
+///
+/// ```
+/// assert_eq!(
+///     prime_tools::is_u32_prime(5_083),
+///     false
+/// );
+/// ```
+///
+/// ```
+/// assert_eq!(
+///     prime_tools::is_u32_prime(1),
+///     false
+/// );
+/// ```
+pub fn is_u32_prime(x: u32) -> bool {
+    if x < 2 { return false; }
+    is_u32_probably_prime(x) && is_u32_definately_prime(x)
+}
+
+/// Figures out if a u64 is prime.
+///
+/// This is pretty slow: I've benchmarked it at 26 seconds to process only 200 random `u64`s. :(
+///
+/// It uses probable primes under the covers, checking 100 "random" factors before running the real prime check.
+///
+/// There's probably a smarter way to do this. Any suggestions are welcome. :)
+///
+/// ```
+/// assert_eq!(
+///     prime_tools::is_u64_prime(23_423_412_349),
+///     true
+/// );
+/// ```
+///
+/// ```
+/// assert_eq!(
+///     prime_tools::is_u64_prime(23_423_414_138),
+///     false
+/// );
+/// ```
+///
+/// ```
+/// assert_eq!(
+///     prime_tools::is_u64_prime(1),
+///     false
+/// );
+/// ```
+pub fn is_u64_prime(x: u64) -> bool {
+    if x < 2 { return false; }
+    is_u64_probably_prime(x) && is_u64_definately_prime(x)
+}
 
 fn get_prime_bit_map(x: u64) -> BitVec {
     let mut prime_map = BitVec::from_elem(x as usize + 1, true);
@@ -129,6 +194,94 @@ fn get_prime_bit_map(x: u64) -> BitVec {
     }
 
     prime_map
+}
+
+fn is_u64_definately_prime(x: u64) -> bool {
+    if x % 2 == 0 {
+        return false;
+    }
+    if x % 3 == 0 {
+        return false;
+    }
+    let mut i = 5;
+    let mut w = 2;
+    while i * i <= x {
+        if x % i == 0 {
+            return false;
+        }
+        i += w;
+        w = 6 - w;
+    }
+    return true;
+}
+
+fn is_u64_probably_prime(x: u64) -> bool {
+    if x % 2 == 0 {
+        return false;
+    }
+    if x % 3 == 0 {
+        return false;
+    }
+    let mut i = 5;
+    let mut w = 2;
+    let mut total_checks = 0;
+    while i * i <= x {
+        if x % i == 0 {
+            return false;
+        }
+        i += w;
+        w = 6 - w;
+
+        total_checks = total_checks + 1;
+        if total_checks > PROBABLE_PRIME_FACTOR_CHECK_COUNT {
+            return true;
+        }
+    }
+    return true;
+}
+
+fn is_u32_definately_prime(x: u32) -> bool {
+    if x % 2 == 0 {
+        return false;
+    }
+    if x % 3 == 0 {
+        return false;
+    }
+    let mut i = 5;
+    let mut w = 2;
+    while i * i <= x {
+        if x % i == 0 {
+            return false;
+        }
+        i += w;
+        w = 6 - w;
+    }
+    return true;
+}
+
+fn is_u32_probably_prime(x: u32) -> bool{
+    if x % 2 == 0 {
+        return false;
+    }
+    if x % 3 == 0 {
+        return false;
+    }
+    let mut i = 5;
+    let mut w = 2;
+    let mut total_checks = 0;
+    while i * i <= x {
+        if x % i == 0 {
+            return false;
+        }
+        i += w;
+        w = 6 - w;
+
+        total_checks = total_checks + 1;
+        if total_checks > PROBABLE_PRIME_FACTOR_CHECK_COUNT {
+            return true;
+        }
+    }
+    return true;
 }
 
 

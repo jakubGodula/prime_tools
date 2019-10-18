@@ -1,10 +1,10 @@
 [package]
 name = "prime_tools"
-version = "0.1.3"
+version = "0.2.1"
 license = "MIT"
 authors = ["Dan Medani <danmedani@gmail.com>"]
 edition = "2018"
-description = "Generate primes, get prime factors, other useful prime-related utilities."
+description = "Generate primes, get prime factors, check primality, and other useful prime-related utilities."
 
 repository = "https://github.com/danmedani/prime_tools"
 keywords = ["primes", "math", "factors", "eratosthenes"]
