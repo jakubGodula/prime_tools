@@ -23,12 +23,12 @@ fn get_prime_factors_with_counts(x: u32, primes: &Vec<u32>) -> HashMap<u32, u32>
 ```Rust
 fn is_u32_prime(x: u32) -> bool
 ```
->Figures out if x (a u32) is prime.
+>Figures out if x is prime.
 >This is fast! I've benchmarked it at 2.7 seconds to process 1 million random `u32`s
 
 
 ```Rust
 fn is_u64_prime(x: u32) -> bool
 ```
->Figures out if x (a u64) is prime.
+>Figures out if x is prime.
 >This is pretty slow: I've benchmarked it at 26 seconds to process only 200 random `u64`s. :(
