@@ -8,8 +8,6 @@ use math::round;
 extern crate bit_vec;
 use bit_vec::BitVec;
 
-const PROBABLE_PRIME_FACTOR_CHECK_COUNT: u32 = 100;
-
 /// Generates an ordered list of prime numbers less than x.
 ///
 /// Uses the Sieve of Eratosthenes under the covers.
@@ -114,7 +112,7 @@ pub fn get_prime_factors_with_counts(x: u32, primes: &Vec<u32>) -> HashMap<u32, 
 ///
 /// This is pretty fast: I've benchmarked it at 2.7 seconds to process 1 million random `u32`s.
 ///
-/// It will soon use probable primes under the covers (still trying to understand https://primes.utm.edu/prove/merged.html)
+/// Todo: use fermat's little theorem to make this faster. 
 ///
 /// ```
 /// assert_eq!(
@@ -138,14 +136,14 @@ pub fn get_prime_factors_with_counts(x: u32, primes: &Vec<u32>) -> HashMap<u32, 
 /// ```
 pub fn is_u32_prime(x: u32) -> bool {
     if x < 2 { return false; }
-    is_u32_probably_prime(x) && is_u32_definately_prime(x)
+    (!is_u32_definitely_composite(x)) && is_u32_definately_prime(x)
 }
 
 /// Figures out if a u64 is prime.
 ///
 /// This is pretty slow: I've benchmarked it at 26 seconds to process only 200 random `u64`s. :(
 ///
-/// It will soon use probable primes under the covers (still trying to understand https://primes.utm.edu/prove/merged.html)
+/// Todo: use fermat's little theorem to make this faster.
 ///
 /// ```
 /// assert_eq!(
@@ -169,7 +167,7 @@ pub fn is_u32_prime(x: u32) -> bool {
 /// ```
 pub fn is_u64_prime(x: u64) -> bool {
     if x < 2 { return false; }
-    is_u64_probably_prime(x) && is_u64_definately_prime(x)
+    (!is_u64_definitely_composite(x)) && is_u64_definately_prime(x)
 }
 
 fn get_prime_bit_map(x: u64) -> BitVec {
@@ -213,38 +211,15 @@ fn is_u64_definately_prime(x: u64) -> bool {
     return true;
 }
 
-fn is_u64_probably_prime(x: u64) -> bool {
-    if x % 2 == 0 {
-        return false;
-    }
-    if x % 3 == 0 {
-        return false;
-    }
-    let mut i = 5;
-    let mut w = 2;
-    let mut total_checks = 0;
-    while i * i <= x {
-        if x % i == 0 {
-            return false;
-        }
-        i += w;
-        w = 6 - w;
-
-        total_checks = total_checks + 1;
-        if total_checks > PROBABLE_PRIME_FACTOR_CHECK_COUNT {
-            return true;
-        }
-    }
-    return true;
+// Todo: Implement this with fermat's little theorem
+fn is_u64_definitely_composite(_x: u64) -> bool{
+    return false;
 }
 
 fn is_u32_definately_prime(x: u32) -> bool {
-    if x % 2 == 0 {
-        return false;
-    }
-    if x % 3 == 0 {
-        return false;
-    }
+    if x == 2 || x == 3 { return true; }
+    if x % 2 == 0 || x % 3 == 0 { return false; }
+
     let mut i = 5;
     let mut w = 2;
     while i * i <= x {
@@ -257,29 +232,9 @@ fn is_u32_definately_prime(x: u32) -> bool {
     return true;
 }
 
-fn is_u32_probably_prime(x: u32) -> bool{
-    if x % 2 == 0 {
-        return false;
-    }
-    if x % 3 == 0 {
-        return false;
-    }
-    let mut i = 5;
-    let mut w = 2;
-    let mut total_checks = 0;
-    while i * i <= x {
-        if x % i == 0 {
-            return false;
-        }
-        i += w;
-        w = 6 - w;
-
-        total_checks = total_checks + 1;
-        if total_checks > PROBABLE_PRIME_FACTOR_CHECK_COUNT {
-            return true;
-        }
-    }
-    return true;
+// Todo: Implement this with fermat's little theorem
+fn is_u32_definitely_composite(_x: u32) -> bool{
+    return false;
 }
 
 
@@ -366,6 +321,31 @@ mod tests {
         assert_eq!(
             get_prime_factors_with_counts(11, &primes),
             result
+        );
+    }
+
+    #[test]
+    fn test_sieve_vs_spot_check_integration() {
+        let max_val = 10_000;
+        let primes_using_sieve = get_primes_less_than_x(max_val);
+
+        let mut primes_using_primality = Vec::new();
+        for val in 1..max_val {
+            if is_u32_prime(val) {
+                primes_using_primality.push(val);
+            }
+        }
+        assert_eq!(
+            primes_using_sieve.len(),
+            primes_using_primality.len()
+        );
+        assert_eq!(
+            primes_using_sieve[0],
+            primes_using_primality[0]
+        );
+        assert_eq!(
+            primes_using_sieve[primes_using_sieve.len()-1],
+            primes_using_primality[primes_using_primality.len()-1]
         );
     }    
 }
