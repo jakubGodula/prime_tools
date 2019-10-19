@@ -114,7 +114,7 @@ pub fn get_prime_factors_with_counts(x: u32, primes: &Vec<u32>) -> HashMap<u32, 
 ///
 /// This is pretty fast: I've benchmarked it at 2.7 seconds to process 1 million random `u32`s.
 ///
-/// It uses probable primes under the covers, checking 100 "random" factors before running the real prime check.
+/// It will soon use probable primes under the covers (still trying to understand https://primes.utm.edu/prove/merged.html)
 ///
 /// ```
 /// assert_eq!(
@@ -145,9 +145,7 @@ pub fn is_u32_prime(x: u32) -> bool {
 ///
 /// This is pretty slow: I've benchmarked it at 26 seconds to process only 200 random `u64`s. :(
 ///
-/// It uses probable primes under the covers, checking 100 "random" factors before running the real prime check.
-///
-/// There's probably a smarter way to do this. Any suggestions are welcome. :)
+/// It will soon use probable primes under the covers (still trying to understand https://primes.utm.edu/prove/merged.html)
 ///
 /// ```
 /// assert_eq!(
