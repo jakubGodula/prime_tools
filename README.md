@@ -28,7 +28,7 @@ fn is_u32_prime(x: u32) -> bool
 
 
 ```Rust
-fn is_u64_prime(x: u32) -> bool
+fn is_u64_prime(x: u64) -> bool
 ```
 >Figures out if x is prime.
 >This is pretty slow: I've benchmarked it at 26 seconds to process only 200 random `u64`s. :(
