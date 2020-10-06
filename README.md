@@ -44,4 +44,5 @@ fn get_primes_between(min: u64, max: u64) -> Vec<u64>
 >Generates primes between min (inclusive) and max (exclusive). Uses a modified sieve of eratosthenes.
 >
 >WARNING #1: This can be very slow if the max is greater than 10^17 ish, or with too large a range.
+>
 >WARNING #2: This will break if the max is too much higher than 10^19 ish
