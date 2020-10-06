@@ -173,6 +173,11 @@ pub fn is_u64_prime(x: u64) -> bool {
 
 /// Generates u64 primes between min (inclusive) and max (exclusive).
 ///
+/// WARNING #1: This can be very slow if the max is greater than 10^17 ish,
+/// or if the range is too large.
+///
+/// WARNING #2: This will break if the max is too much higher than 10^19 ish.
+///
 /// Uses a modified sieve of eratosthenes
 ///
 /// ```
