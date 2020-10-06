@@ -224,7 +224,7 @@ pub fn generate_primes_between(min: u64, max: u64) -> Vec<u64> {
             _ => 1
         };
 
-        // Run val (a multiple of prime)  from min to max, marking numbers as not prime.
+        // Run val (a multiple of prime) from min to max, marking numbers as not prime.
         let mut val = multiplier * prime;
 
         // In the case that the prime is >= min, we'll want to avoid marking it as not prime
