@@ -214,21 +214,25 @@ pub fn generate_primes_between(min: u64, max: u64) -> Vec<u64> {
     // the offset sieve
     let mut prime_map = BitVec::from_elem((max - true_min) as usize + 1, true);
     for prime in &possible_prime_factors {
-        let multiplier = true_min / prime;
-        let mut factor = multiplier * prime;
+        let multiplier = match true_min > *prime {
+            true => true_min / prime,
+            _ => 1
+        };
 
-        // if true_min is prime, set it as such (and move on to de-priming others)
-        if *prime == true_min {
-            prime_map.set(0, true);
-            factor += prime;
+        // Run val (a multiple of prime)  from min to max, marking numbers as not prime.
+        let mut val = multiplier * prime;
+
+        // In the case that the prime is >= min, we'll want to avoid marking it as not prime
+        if *prime >= true_min {
+            val += prime;
         }
 
-        if factor < true_min {
-            factor += prime;
+        if val < true_min {
+            val += prime;
         }
-        while factor < max {
-            prime_map.set((factor - true_min) as usize, false);
-            factor += prime;
+        while val < max {
+            prime_map.set((val - true_min) as usize, false);
+            val += prime;
         }
     }
 
@@ -455,10 +459,24 @@ mod tests {
             generate_primes_between(1, 3),
             vec![2]
         );
+        assert_eq!(
+            generate_primes_between(0, 2),
+            vec![]
+        );
+        assert_eq!(
+            generate_primes_between(100_000_000_000_000, 100_000_000_000_100),
+            vec![100000000000031, 100000000000067, 100000000000097, 100000000000099]
+        );
 
         let primes_under: Vec<u64> = get_primes_less_than_x(101).iter().map(|&x| x as u64).collect();
         assert_eq!(
             generate_primes_between(2, 101),
+            primes_under
+        );
+
+        let primes_under: Vec<u64> = get_primes_less_than_x(10).iter().map(|&x| x as u64).collect();
+        assert_eq!(
+            generate_primes_between(0, 10),
             primes_under
         );
     }
