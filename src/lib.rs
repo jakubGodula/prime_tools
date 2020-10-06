@@ -170,6 +170,78 @@ pub fn is_u64_prime(x: u64) -> bool {
     (!is_u64_definitely_composite(x)) && is_u64_definately_prime(x)
 }
 
+
+/// Generates u64 primes between min (inclusive) and max (exclusive).
+///
+/// Uses a modified sieve of eratosthenes
+///
+/// ```
+/// assert_eq!(
+///     prime_tools::generate_primes_between(11, 29),
+///     vec![11, 13, 17, 19, 23]
+/// );
+/// ```
+///
+/// ```
+/// assert_eq!(
+///     prime_tools::generate_primes_between(10, 30),
+///     vec![11, 13, 17, 19, 23, 29]
+/// );
+/// ```
+///
+/// ```
+/// assert_eq!(
+///     prime_tools::generate_primes_between(1, 10),
+///     vec![2, 3, 5, 7]
+/// );
+/// ```
+///
+/// ```
+/// assert_eq!(
+///     prime_tools::generate_primes_between(100_000_000_000, 100_000_000_200),
+///     vec![100000000003, 100000000019, 100000000057, 100000000063, 100000000069, 100000000073, 100000000091, 100000000103, 100000000129, 100000000171, 100000000183, 100000000193]
+/// );
+/// ```
+pub fn generate_primes_between(min: u64, max: u64) -> Vec<u64> {
+    let true_min = match min < 2 {
+        true => 2,
+        _ => min
+    };
+
+    let highest_factor = (max as f64).sqrt() as u32;
+    let possible_prime_factors: Vec<u64> = get_primes_less_than_x(highest_factor + 1).iter().map(|&prime| prime as u64).collect();
+
+    // the offset sieve
+    let mut prime_map = BitVec::from_elem((max - true_min) as usize + 1, true);
+    for prime in &possible_prime_factors {
+        let multiplier = true_min / prime;
+        let mut factor = multiplier * prime;
+
+        // if true_min is prime, set it as such (and move on to de-priming others)
+        if *prime == true_min {
+            prime_map.set(0, true);
+            factor += prime;
+        }
+
+        if factor < true_min {
+            factor += prime;
+        }
+        while factor < max {
+            prime_map.set((factor - true_min) as usize, false);
+            factor += prime;
+        }
+    }
+
+    let mut primes = Vec::new();
+    for val in true_min..max {
+        if prime_map[(val - true_min) as usize] {
+            primes.push(val);
+        }
+    }
+    primes
+}
+
+
 fn get_prime_bit_map(x: u64) -> BitVec {
     let mut prime_map = BitVec::from_elem(x as usize + 1, true);
     
@@ -347,5 +419,47 @@ mod tests {
             primes_using_sieve[primes_using_sieve.len()-1],
             primes_using_primality[primes_using_primality.len()-1]
         );
-    }    
+    }
+
+    #[test]
+    fn test_generate_primes_between_edge_cases() {
+        assert_eq!(
+            generate_primes_between(3, 8),
+            vec![3, 5, 7]
+        );
+        assert_eq!(
+            generate_primes_between(2, 7),
+            vec![2, 3, 5]
+        );
+        assert_eq!(
+            generate_primes_between(2, 3),
+            vec![2]
+        );
+        assert_eq!(
+            generate_primes_between(2, 4),
+            vec![2, 3]
+        );
+        assert_eq!(
+            generate_primes_between(2, 2),
+            vec![]
+        );
+        assert_eq!(
+            generate_primes_between(4, 6),
+            vec![5]
+        );
+        assert_eq!(
+            generate_primes_between(5, 6),
+            vec![5]
+        );
+        assert_eq!(
+            generate_primes_between(1, 3),
+            vec![2]
+        );
+
+        let primes_under: Vec<u64> = get_primes_less_than_x(101).iter().map(|&x| x as u64).collect();
+        assert_eq!(
+            generate_primes_between(2, 101),
+            primes_under
+        );
+    }
 }
