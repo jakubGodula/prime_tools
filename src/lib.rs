@@ -182,32 +182,32 @@ pub fn is_u64_prime(x: u64) -> bool {
 ///
 /// ```
 /// assert_eq!(
-///     prime_tools::generate_primes_between(11, 29),
+///     prime_tools::get_primes_between(11, 29),
 ///     vec![11, 13, 17, 19, 23]
 /// );
 /// ```
 ///
 /// ```
 /// assert_eq!(
-///     prime_tools::generate_primes_between(10, 30),
+///     prime_tools::get_primes_between(10, 30),
 ///     vec![11, 13, 17, 19, 23, 29]
 /// );
 /// ```
 ///
 /// ```
 /// assert_eq!(
-///     prime_tools::generate_primes_between(1, 10),
+///     prime_tools::get_primes_between(1, 10),
 ///     vec![2, 3, 5, 7]
 /// );
 /// ```
 ///
 /// ```
 /// assert_eq!(
-///     prime_tools::generate_primes_between(100_000_000_000, 100_000_000_200),
+///     prime_tools::get_primes_between(100_000_000_000, 100_000_000_200),
 ///     vec![100000000003, 100000000019, 100000000057, 100000000063, 100000000069, 100000000073, 100000000091, 100000000103, 100000000129, 100000000171, 100000000183, 100000000193]
 /// );
 /// ```
-pub fn generate_primes_between(min: u64, max: u64) -> Vec<u64> {
+pub fn get_primes_between(min: u64, max: u64) -> Vec<u64> {
     let true_min = match min < 2 {
         true => 2,
         _ => min
@@ -431,57 +431,57 @@ mod tests {
     }
 
     #[test]
-    fn test_generate_primes_between_edge_cases() {
+    fn test_get_primes_between_edge_cases() {
         assert_eq!(
-            generate_primes_between(3, 8),
+            get_primes_between(3, 8),
             vec![3, 5, 7]
         );
         assert_eq!(
-            generate_primes_between(2, 7),
+            get_primes_between(2, 7),
             vec![2, 3, 5]
         );
         assert_eq!(
-            generate_primes_between(2, 3),
+            get_primes_between(2, 3),
             vec![2]
         );
         assert_eq!(
-            generate_primes_between(2, 4),
+            get_primes_between(2, 4),
             vec![2, 3]
         );
         assert_eq!(
-            generate_primes_between(2, 2),
+            get_primes_between(2, 2),
             vec![]
         );
         assert_eq!(
-            generate_primes_between(4, 6),
+            get_primes_between(4, 6),
             vec![5]
         );
         assert_eq!(
-            generate_primes_between(5, 6),
+            get_primes_between(5, 6),
             vec![5]
         );
         assert_eq!(
-            generate_primes_between(1, 3),
+            get_primes_between(1, 3),
             vec![2]
         );
         assert_eq!(
-            generate_primes_between(0, 2),
+            get_primes_between(0, 2),
             vec![]
         );
         assert_eq!(
-            generate_primes_between(100_000_000_000_000, 100_000_000_000_100),
+            get_primes_between(100_000_000_000_000, 100_000_000_000_100),
             vec![100000000000031, 100000000000067, 100000000000097, 100000000000099]
         );
 
         let primes_under: Vec<u64> = get_primes_less_than_x(101).iter().map(|&x| x as u64).collect();
         assert_eq!(
-            generate_primes_between(2, 101),
+            get_primes_between(2, 101),
             primes_under
         );
 
         let primes_under: Vec<u64> = get_primes_less_than_x(10).iter().map(|&x| x as u64).collect();
         assert_eq!(
-            generate_primes_between(0, 10),
+            get_primes_between(0, 10),
             primes_under
         );
     }
