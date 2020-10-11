@@ -274,12 +274,8 @@ fn get_prime_bit_map(x: u64) -> BitVec {
 }
 
 fn is_u64_definately_prime(x: u64) -> bool {
-    if x % 2 == 0 {
-        return false;
-    }
-    if x % 3 == 0 {
-        return false;
-    }
+    if x == 2 || x == 3 { true }
+    if x % 2 == 0 || x % 3 == 0 { false }
     let mut i = 5;
     let mut w = 2;
     while i * i <= x {
